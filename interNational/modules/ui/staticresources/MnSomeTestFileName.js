@@ -141,10 +141,6 @@ define([
         render: function () {
             log.debug('MnAdvSetupRulesView.render()');
             var view = this;
-            if(view.needDelete) {
-                view.deleteRules();
-                return;
-            }
 
 
             //if displayMode is Edit then first load the countries and then load the rules
@@ -154,11 +150,6 @@ define([
                 view.oldRules = view.rules.clone();
                 view.getRules();
                 return;
-            }
-
-            view.renderRules();
-            if (!view.isPopup) {
-                view.renderCountries();
             }
 
             view.renderRules();
@@ -206,6 +197,7 @@ define([
                     // view.isDelete =false;
                     view.tabIndex = view.validateTabIndex(view.tabIndex);
                     view.render();
+                    view.notDoing();
                     appRouter.hideLoading();
                 },
                 error: function (m, r, o) {
