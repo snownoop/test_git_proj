@@ -1,40 +1,20 @@
-define([
-    "log",
-    "jquery",
-    "underscore",
-    "backbone",
-    "bootstrap",
-    "handlebars",
-    "accounting",
-    "js/views/common/MnWizardStep",
-    "js/views/advSimulation/setup/rule/MnAdvSetupRuleView",
-    "text!js/templates/advSimulation/setup/rule/MnAdvSetupRulesTemplate.html",
-    "js/models/advSimulation/MnAdvSimulationRuleCollection",
-    "js/models/MnCountryCollection",
-    "js/models/MnCountryModel",
-    "js/views/common/MnPickListView",
-    "js/views/common/MnMessageView",
-    "js/views/advSimulation/setup/rule/MnAdvSetupCountryReferencesView",
-    "js/remoteActions/MnAdvSimulationRemoteActions"
-], function (log,
-    $,
-    _,
-    Backbone,
-    Bootstrap,
-    Handlebars,
-    Accounting,
-    MnWizardStep,
-    MnAdvSetupRuleView,
-    HtmlTemplate,
-    MnAdvSimulationRuleCollection,
-    MnCountryCollection,
-    MnCountryModel,
-    MnPickListView,
-    MnMessageView,
-    MnAdvSetupCountryReferencesView,
-    MnAdvSimulationRemoteActions) {
-
-    log.debug('MnAdvSetupRulesView.js loaded');
+import log from "log";
+import $ from "jquery";
+import _ from "underscore";
+import Backbone from "backbone";
+import Bootstrap from "bootstrap";
+import Handlebars from "handlebars";
+import Accounting from "accounting";
+import MnWizardStep from "js/views/common/MnWizardStep";
+import MnAdvSetupRuleView from "js/views/advSimulation/setup/rule/MnAdvSetupRuleView";
+import HtmlTemplate from "text-loader!js/templates/advSimulation/setup/rule/MnAdvSetupRulesTemplate.html";
+import MnAdvSimulationRuleCollection from "js/models/advSimulation/MnAdvSimulationRuleCollection";
+import MnCountryCollection from "js/models/MnCountryCollection";
+import MnCountryModel from "js/models/MnCountryModel";
+import MnPickListView from "js/views/common/MnPickListView";
+import MnMessageView from "js/views/common/MnMessageView";
+import MnAdvSetupCountryReferencesView from "js/views/advSimulation/setup/rule/MnAdvSetupCountryReferencesView";
+import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemoteActions";
 
     var v = MnWizardStep.extend({
         template: Handlebars.compile(HtmlTemplate),
@@ -348,8 +328,9 @@ define([
         },
 
         __revertCountrySelection: function () {
+            var c = 23;
             var view = this;
-            view.model.set('countryId', view.prevCountryId, {silent: true});
+            console.log('kiss');
             $('[name="countryId"]').val(view.prevCountryId).attr("selected", "selected");
             view.$el.find('[name="countryId"]').trigger('chosen:updated');
         },
@@ -605,5 +586,4 @@ define([
             );
         }
     });
-    return v;
-});
+    export default v;
