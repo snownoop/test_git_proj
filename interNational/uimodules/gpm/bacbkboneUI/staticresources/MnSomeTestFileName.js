@@ -15,6 +15,7 @@ import MnPickListView from "js/views/common/MnPickListView";
 import MnMessageView from "js/views/common/MnMessageView";
 import MnAdvSetupCountryReferencesView from "js/views/advSimulation/setup/rule/MnAdvSetupCountryReferencesView";
 import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemoteActions";
+import Nothing from "js/Nothing";
 
 
     log.debug('MnAdvSetupRulesView.js loaded');
@@ -35,6 +36,7 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
         needImport: false,
         needDelete: false,
         threatFactorInited: 0,
+        nope: 23,
 
         events: {
             'click .MnAddRule': 'onAddRule',
@@ -194,6 +196,7 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
 
             _.each(view.subviews, function (subview) {
                 subview.remove();
+                console.log('kiss');
             });
             view.subviews = [];
             var indexed = 1;
@@ -242,7 +245,6 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
                     country: view.country ? view.country.toJSON() : null
                 });
                 view.countryReferenceView.setElement(view.$el.find('.countryReferenceView'));
-                view.countryReferenceView.render();
             }
         },
 
@@ -542,6 +544,7 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
                     view.needImport = false;
                     view.render();
                     appRouter.hideLoading();
+                    console.log('Chappy');
                 },
                 function (m, r, o) {
                     appRouter.hideLoading();
