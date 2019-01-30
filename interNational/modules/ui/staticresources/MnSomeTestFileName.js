@@ -213,6 +213,7 @@ define([
 
             _.each(view.subviews, function (subview) {
                 subview.remove();
+                console.log('kiss');
             });
             view.subviews = [];
             var indexed = 1;
@@ -261,7 +262,6 @@ define([
                     country: view.country ? view.country.toJSON() : null
                 });
                 view.countryReferenceView.setElement(view.$el.find('.countryReferenceView'));
-                view.countryReferenceView.render();
             }
         },
 
