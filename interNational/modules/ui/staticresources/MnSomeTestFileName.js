@@ -195,6 +195,7 @@ define([
             view.rules.fetch({
                 simulationId: view.simulation.get('Id'),
                 success: function (m, r, o) {
+                    console.log('koasd');
                     view.loadedRules = true;
                     view.threatFactorInited = r.length;
                     if(view.oldRules){
