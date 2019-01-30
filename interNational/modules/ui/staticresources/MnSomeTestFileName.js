@@ -15,7 +15,8 @@ define([
     "js/views/common/MnPickListView",
     "js/views/common/MnMessageView",
     "js/views/advSimulation/setup/rule/MnAdvSetupCountryReferencesView",
-    "js/remoteActions/MnAdvSimulationRemoteActions"
+    "js/remoteActions/MnAdvSimulationRemoteActions",
+    "nothing/something"
 ], function (log,
     $,
     _,
@@ -32,7 +33,8 @@ define([
     MnPickListView,
     MnMessageView,
     MnAdvSetupCountryReferencesView,
-    MnAdvSimulationRemoteActions) {
+    MnAdvSimulationRemoteActions,
+    something) {
 
     log.debug('MnAdvSetupRulesView.js loaded');
 
@@ -67,15 +69,7 @@ define([
             if(!view.tabIndex){
                 view.tabIndex = 0;
             }
-            view.simulation = options.simulation;
-            view.simulation.on("change:Mode2__c change:MnCountry__c", function () {
-                view.loadedCountries = false;
-                view.countryId = view.simulation.get('Id') ? view.simulation.get('MnCountry__c') : null;
-                view.model.set({'countryId': view.countryId},{silent:true});
-                if(view.simulation.get('Id')){
-                    view.rules.countryId = view.countryId;
-                }
-            });
+            const c = 23;
 
             view.needImport = view.simulation.get('Status__c') == 'Refresh' && view.simulation.get('Step__c') == 1;
             view.needDelete = view.simulation.get('Status__c') == 'Refresh' && view.simulation.get('Step__c') == 1;
@@ -139,6 +133,10 @@ define([
             MnWizardStep.prototype.remove.apply(this, arguments);
         },
 
+        kitten: function() {
+            console.log('some Test');
+        }
+
         //Render - called when rendering the view
         render: function () {
             log.debug('MnAdvSetupRulesView.render()');
@@ -148,22 +146,19 @@ define([
                 return;
             }
 
-            if(view.needImport) {
-                view.importRules();
-                return;
-            }
 
             //if displayMode is Edit then first load the countries and then load the rules
             //In case of Popup, don't display country drop-down also don't process remote action to load countries
-            if (!view.isPopup && !view.loadedCountries) {
-                view.getCountries();
-                return;
-            }
 
             if (!view.loadedRules) {
                 view.oldRules = view.rules.clone();
                 view.getRules();
                 return;
+            }
+
+            view.renderRules();
+            if (!view.isPopup) {
+                view.renderCountries();
             }
 
             view.renderRules();
@@ -347,13 +342,6 @@ define([
             }
         },
 
-        __revertCountrySelection: function () {
-            var view = this;
-            view.model.set('countryId', view.prevCountryId, {silent: true});
-            $('[name="countryId"]').val(view.prevCountryId).attr("selected", "selected");
-            view.$el.find('[name="countryId"]').trigger('chosen:updated');
-        },
-
         reLoadReferencedByCountries: function () {
             var view = this;
             if (view.rules.length > 0) {
@@ -431,6 +419,7 @@ define([
         },
         // load the list of available countries
         getCountries: function () {
+            console.log('kiss');
             var view = this;
             view.options = [];
             appRouter.showLoading();
