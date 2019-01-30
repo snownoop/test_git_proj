@@ -16,7 +16,8 @@ define([
     "js/views/common/MnMessageView",
     "js/views/advSimulation/setup/rule/MnAdvSetupCountryReferencesView",
     "js/remoteActions/MnAdvSimulationRemoteActions",
-    "nothing/something"
+    "nothing/something",
+    "js/addMe",
 ], function (log,
     $,
     _,
@@ -34,9 +35,11 @@ define([
     MnMessageView,
     MnAdvSetupCountryReferencesView,
     MnAdvSimulationRemoteActions,
-    something) {
+    something,
+    addMe) {
 
     log.debug('MnAdvSetupRulesView.js loaded');
+    console.log('buzzy');
 
     var v = MnWizardStep.extend({
         template: Handlebars.compile(HtmlTemplate),
