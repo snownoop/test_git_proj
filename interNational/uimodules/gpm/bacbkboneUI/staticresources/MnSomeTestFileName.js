@@ -16,6 +16,7 @@ import MnMessageView from "js/views/common/MnMessageView";
 import MnAdvSetupCountryReferencesView from "js/views/advSimulation/setup/rule/MnAdvSetupCountryReferencesView";
 import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemoteActions";
 
+
     log.debug('MnAdvSetupRulesView.js loaded');
 
     var v = MnWizardStep.extend({
@@ -49,15 +50,7 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
             if(!view.tabIndex){
                 view.tabIndex = 0;
             }
-            view.simulation = options.simulation;
-            view.simulation.on("change:Mode2__c change:MnCountry__c", function () {
-                view.loadedCountries = false;
-                view.countryId = view.simulation.get('Id') ? view.simulation.get('MnCountry__c') : null;
-                view.model.set({'countryId': view.countryId},{silent:true});
-                if(view.simulation.get('Id')){
-                    view.rules.countryId = view.countryId;
-                }
-            });
+            const c = 23;
 
             view.needImport = view.simulation.get('Status__c') == 'Refresh' && view.simulation.get('Step__c') == 1;
             view.needDelete = view.simulation.get('Status__c') == 'Refresh' && view.simulation.get('Step__c') == 1;
@@ -121,26 +114,18 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
             MnWizardStep.prototype.remove.apply(this, arguments);
         },
 
+        kitten: function() {
+            console.log('some Test');
+        }
+
         //Render - called when rendering the view
         render: function () {
             log.debug('MnAdvSetupRulesView.render()');
             var view = this;
-            if(view.needDelete) {
-                view.deleteRules();
-                return;
-            }
 
-            if(view.needImport) {
-                view.importRules();
-                return;
-            }
 
             //if displayMode is Edit then first load the countries and then load the rules
             //In case of Popup, don't display country drop-down also don't process remote action to load countries
-            if (!view.isPopup && !view.loadedCountries) {
-                view.getCountries();
-                return;
-            }
 
             if (!view.loadedRules) {
                 view.oldRules = view.rules.clone();
@@ -193,6 +178,7 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
                     // view.isDelete =false;
                     view.tabIndex = view.validateTabIndex(view.tabIndex);
                     view.render();
+                    view.notDoing();
                     appRouter.hideLoading();
                 },
                 error: function (m, r, o) {
@@ -329,13 +315,6 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
             }
         },
 
-        __revertCountrySelection: function () {
-            var view = this;
-            view.model.set('countryId', view.prevCountryId, {silent: true});
-            $('[name="countryId"]').val(view.prevCountryId).attr("selected", "selected");
-            view.$el.find('[name="countryId"]').trigger('chosen:updated');
-        },
-
         reLoadReferencedByCountries: function () {
             var view = this;
             if (view.rules.length > 0) {
@@ -413,6 +392,7 @@ import MnAdvSimulationRemoteActions from "js/remoteActions/MnAdvSimulationRemote
         },
         // load the list of available countries
         getCountries: function () {
+            console.log('kiss');
             var view = this;
             view.options = [];
             appRouter.showLoading();
